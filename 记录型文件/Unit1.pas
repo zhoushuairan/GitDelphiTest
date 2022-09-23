@@ -1,0 +1,67 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    lbl1: TLabel;
+    edt1: TEdit;
+    lbl2: TLabel;
+    edt2: TEdit;
+    btn1: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+ type
+   lady=record
+    num:Integer;
+    name:string[20];
+    end;
+{$R *.dfm}
+var
+  VFLady: file of lady;
+  v1: lady;
+procedure TForm1.FormCreate(Sender: TObject);
+var
+  curDir: string;
+begin
+  GetDir(0,curDir);
+  //showmessage(curDir);
+  AssignFile(VFLady,curDir+'\FishC.dat');
+  if FileExists(curDir+'\FishC.dat') then
+    Reset(VFLady)
+    else
+    Rewrite(VFLady);
+    
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  CloseFile(VFLady);
+end;
+
+procedure TForm1.btn1Click(Sender: TObject);
+begin
+  v1.num:=StrToInt(edt1.text);
+  v1.name:=edt2.Text;
+
+  Seek(VFLady,filesize(VFLady));
+  Write(VFLady,v1);
+  showmessage(Inttostr(filesize(VFLady)));
+end;
+
+end.

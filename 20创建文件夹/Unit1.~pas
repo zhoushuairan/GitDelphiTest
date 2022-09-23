@@ -1,0 +1,58 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, FileCtrl;
+
+type
+  TForm1 = class(TForm)
+    drvcbb1: TDriveComboBox;
+    dirlst1: TDirectoryListBox;
+    fllst1: TFileListBox;
+    btn1: TButton;
+    lbl1: TLabel;
+    edt1: TEdit;
+    lbl2: TLabel;
+    procedure btn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+   DirName,FullName,RanStr:String;
+   FileSaveTo:TextFile;
+begin
+  lbl2.Caption:='';
+  Randomize;
+  RanStr:='';
+  DirName:=dirlst1.Directory;
+  if DirName[Length(DirName)]<>'\' then Dirname:=DirName+'\';
+  FullName:=DirName+edt1.Text;
+  if FileExists(FullName) then DeleteFile(FullName);
+
+  AssignFile(FileSaveTo,FullName);
+  if FileExists(FullName) then
+    Reset(FileSaveTo)
+  else
+    Rewrite(FileSaveTo);
+
+  Writeln(filesaveto,ranstr);
+  CloseFile(FileSaveTo);
+  lbl2.Caption:='文件创建完毕';
+  fllst1.Update ;
+end;
+
+end.

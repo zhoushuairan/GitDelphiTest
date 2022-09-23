@@ -1,0 +1,119 @@
+object Form1: TForm1
+  Left = 252
+  Top = 131
+  Width = 928
+  Height = 480
+  Caption = 'Form1'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lbl1: TLabel
+    Left = 120
+    Top = 64
+    Width = 48
+    Height = 13
+    Caption = #35838#31243#21015#34920
+  end
+  object lbl2: TLabel
+    Left = 352
+    Top = 64
+    Width = 72
+    Height = 13
+    Caption = #23398#20064#35745#21010#21015#34920
+  end
+  object lst1: TListBox
+    Left = 72
+    Top = 104
+    Width = 161
+    Height = 161
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ItemHeight = 20
+    Items.Strings = (
+      '0'#22522#30784#23398#20064'delphi'
+      '0'#22522#30784#23398#20064'java'
+      '0'#22522#30784#23398#20064'c/c++'
+      '0'#22522#30784#23398#20064'shell')
+    MultiSelect = True
+    ParentFont = False
+    TabOrder = 0
+  end
+  object lst2: TListBox
+    Left = 320
+    Top = 104
+    Width = 161
+    Height = 161
+    ItemHeight = 13
+    MultiSelect = True
+    TabOrder = 1
+  end
+  object btn1: TButton
+    Left = 240
+    Top = 120
+    Width = 75
+    Height = 25
+    Caption = '>'
+    TabOrder = 2
+    OnClick = btn1Click
+  end
+  object btn2: TButton
+    Left = 240
+    Top = 160
+    Width = 75
+    Height = 25
+    Caption = '>>'
+    TabOrder = 3
+    OnClick = btn2Click
+  end
+  object btn3: TButton
+    Left = 240
+    Top = 200
+    Width = 75
+    Height = 25
+    Caption = '<'
+    TabOrder = 4
+    OnClick = btn3Click
+  end
+  object btn4: TButton
+    Left = 240
+    Top = 240
+    Width = 75
+    Height = 25
+    Caption = '<<'
+    TabOrder = 5
+    OnClick = btn4Click
+  end
+  object btn5: TButton
+    Left = 128
+    Top = 280
+    Width = 75
+    Height = 25
+    Caption = #30830#23450
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 6
+    OnClick = btn5Click
+  end
+  object btn6: TButton
+    Left = 360
+    Top = 280
+    Width = 75
+    Height = 25
+    Caption = #21462#28040
+    TabOrder = 7
+    OnClick = btn6Click
+  end
+end

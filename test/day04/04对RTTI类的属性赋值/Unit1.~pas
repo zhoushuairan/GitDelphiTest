@@ -1,0 +1,138 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, TypInfo;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    btn2: TButton;
+    btn3: TButton;
+    btn4: TButton;
+    btn5: TButton;
+    pnl1: TPanel;
+    procedure pnl1Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
+    procedure btn4Click(Sender: TObject);
+    procedure btn5Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+procedure setIntegerPropertyIfExits(AComp: TComponent; APropName: string; AValue: Integer);
+var
+  PropInfo: PPropInfo;
+begin
+  //getpropinfo，通过属性的名称来取得类的的 prpoinfo类型指针
+  PropInfo := GetPropInfo(AComp.ClassInfo, APropName);
+  if PropInfo <> nil then
+  begin
+    if PropInfo^.PropType^.Kind = tkinteger then
+      SetOrdProp(AComp, PropInfo, AValue);
+  end;
+end;
+
+//给类属性设值
+procedure setObjectPropertyIfExits(AComp: TComponent; APropName: string; AValue: TObject);
+var
+  PropInfo: PPropInfo;
+begin
+  PropInfo := GetPropInfo(AComp.ClassInfo, APropName);
+  if PropInfo <> nil then
+  begin
+    if PropInfo^.PropType^.Kind = tkclass then
+      SetObjectProp(AComp, PropInfo, AValue);
+  end;
+end;
+
+procedure SetBooleanPropertyIfExits(AComp: TComponent; APropName: string; AValue: Boolean);
+var
+  PropInfo: PPropInfo;
+begin
+  PropInfo := GetPropInfo(AComp.ClassInfo, APropName);
+  if PropInfo <> nil then
+  begin
+    if PropInfo^.PropType^.Kind = tkenumeration then
+      SetOrdProp(AComp, PropInfo, Integer(AValue));
+  end;
+end;
+
+procedure SetStringPropertyIfExits(AComp: TComponent; APropName: string; AValue: string);
+var
+  PropInfo: PPropInfo;
+  TK: TTypeKind;
+begin
+  PropInfo := GetPropInfo(AComp.ClassInfo, APropName);
+  if PropInfo <> nil then
+  begin
+    TK := PropInfo^.PropType^.Kind;
+    if (TK = tkstring) or (TK = tklstring) or (TK = tkwstring) then
+      SetStrProp(AComp, PropInfo, AValue);
+  end;
+end;
+
+procedure SetMethodPropertyIfExits(AComp: TComponent; APropName: string; AValue: TMethod);
+var
+  PropInfo: PPropInfo;
+  TK: TTypeKind;
+begin
+  PropInfo := GetPropInfo(AComp.ClassInfo, APropName);
+  if PropInfo <> nil then
+  begin
+    TK := PropInfo^.PropType^.Kind;
+    if (TK = tkmethod) then
+      SetMethodProp(AComp, PropInfo, AValue);
+  end;
+end;
+
+procedure TForm1.pnl1Click(Sender: TObject);
+begin
+  ShowMessage('this is panel');
+end;
+
+procedure TForm1.btn1Click(Sender: TObject);
+begin
+  setIntegerPropertyIfExits(btn1, 'width', 50);
+end;
+
+procedure TForm1.btn2Click(Sender: TObject);
+var
+  f: TFont;
+begin
+  f := TFont.Create;
+  f.Name := 'Arial';
+  f.Size := 24;
+  f.Color := clRed;
+  setObjectPropertyIfExits(pnl1, 'font', f);
+end;
+
+procedure TForm1.btn3Click(Sender: TObject);
+begin
+  SetBooleanPropertyIfExits(btn3, 'enabled', False);
+end;
+
+procedure TForm1.btn4Click(Sender: TObject);
+begin
+  SetStringPropertyIfExits(btn4, 'caption', 'zsr');
+end;
+
+procedure TForm1.btn5Click(Sender: TObject);
+begin
+  SetMethodPropertyIfExits(btn5, 'onclick', GetMethodProp(pnl1, 'onclick'));
+end;
+
+end.
+

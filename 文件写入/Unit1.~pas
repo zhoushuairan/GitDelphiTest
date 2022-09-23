@@ -1,0 +1,44 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    dlgSave1: TSaveDialog;
+    procedure btn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  F1: TextFile;
+  N1,N2,N3:Integer;
+begin
+  N1:=123;
+  N2:=456;
+  N3:=789;
+  if dlgSave1.Execute then
+    begin
+     AssignFile(F1,dlgSave1.FileName+'.txt');//¹ØÁªÎÄµµ
+     Rewrite(F1);
+     write(F1,N1,N2,N3);
+     CloseFile(F1);
+    end;
+end;
+
+end.

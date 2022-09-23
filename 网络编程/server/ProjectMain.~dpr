@@ -1,0 +1,12 @@
+program ProjectMain;
+
+uses
+  Forms,
+  Unit1 in 'server\Unit1.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.Run;
+end.

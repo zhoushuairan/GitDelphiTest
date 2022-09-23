@@ -1,0 +1,98 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    btn1: TButton;
+    procedure btn1Click(Sender: TObject);
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+var
+  MyHeap: THandle; {堆句柄}
+  p: Pointer;
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  i, num: Integer;
+  p2: Pointer;
+  str: string;
+begin
+  {建立堆}
+  MyHeap := HeapCreate(0, 1024 * 1024 * 2, 0); {建立个 2M 的堆}
+  if Myheap = 0 then
+    Exit; {如果创建失败则退出}
+  {从堆中分配内存}
+  p := HeapAlloc(MyHeap, 0, 7);
+  if p = nil then
+    Exit; {出错退出}
+  {获取内存块大小}
+  num := HeapSize(MyHeap, 0, p);
+
+  {给内存块的每个字节赋值}
+  p2 := p;
+  for i := 0 to num - 1 do
+  begin
+    Byte(p2^) := i + 65;
+    p2 := Ptr(Integer(p2) + 1);
+  end;
+
+  {取值}
+  p2 := p;
+  str := '';
+  for i := 0 to num - 1 do
+  begin
+    str := str + Chr(Byte(p2^));
+    p2 := Ptr(Integer(p2) + 1);
+  end;
+
+  {显示内存块的内容与大小}
+  ShowMessageFmt('%s,%d', [str, num]); {ABCDEFG,7}
+  /////////////////////////////////////////////////////
+  {扩充内存, 只此一句不同, 下面都是重复上面的代码}
+  p := HeapReAlloc(MyHeap, 0, p, 26);
+  if p = nil then
+    Exit; {出错退出}
+  {获取内存块大小}
+  num := HeapSize(MyHeap, 0, p);
+
+  {给内存块的每个字节赋值}
+  p2 := p;
+  for i := 0 to num - 1 do
+  begin
+    Byte(p2^) := i + 65;
+    p2 := Ptr(Integer(p2) + 1);
+  end;
+
+  {取值}
+  p2 := p;
+  str := '';
+  for i := 0 to num - 1 do
+  begin
+    str := str + Chr(Byte(p2^));
+    p2 := Ptr(Integer(p2) + 1);
+  end;
+
+  {显示内存块的内容与大小}
+  ShowMessageFmt('%s,%d', [str, num]); {ABCDEFGHIJKLMNOPQRSTUVWXYZ,26}
+  /////////////////////////////////////////////////////
+  {释放内存}
+  HeapFree(MyHeap, 0, p);
+
+  {销毁堆}
+  HeapDestroy(MyHeap);
+end;
+
+end.
+

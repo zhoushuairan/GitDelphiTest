@@ -1,0 +1,60 @@
+program Project2;
+
+{$APPTYPE CONSOLE}
+
+{$R 'TestRes.res' 'TestRes.rc'}
+
+uses
+  SysUtils,
+  Windows,
+  Messages;
+
+function WndProc(wnd: HWND; msg: UINT; wparam: Integer; lParam: Integer): Integer; stdcall;
+begin
+  result := 0;
+  case msg of
+    WM_DESTROY:
+      PostQuitMessage(0);
+  else
+    result := defwindowproc(wnd, msg, wparam, lParam);
+  end;
+end;
+function RegMyWndClass: Boolean;
+var
+  cls: TWndClass;
+begin
+  cls.style         := CS_HREDRAW or CS_VREDRAW;
+  cls.lpfnWndProc   := @WndProc;
+  cls.cbClsExtra    := 0;
+  cls.cbWndExtra    := 0;
+  cls.hInstance     := HInstance;
+  cls.hIcon         := 0;
+  cls.hCursor       := LoadCursor(0, IDC_ARROW);
+  cls.hbrBackground := HBRUSH(COLOR_WINDOW + 1);
+  cls.lpszMenuName  := 'MyMenu1'; {在这里指定菜单资源, MyMenu1 是编辑资源文件时命名的}
+  cls.lpszClassName := 'MyWnd';
+  Result := RegisterClass(cls) <> 0;
+end;
+
+const
+  tit='New Form';
+  ws=ws_overlappedwindow;
+  x=100;y=100;w=300;h=180;
+var
+  hwnd:THandle;
+  msg:TMsg;
+begin
+  { TODO -oUser -cConsole Main : Insert code here }
+ RegMyWndClass;
+  hWnd := CreateWindow('MyWnd', tit, ws, x, y, w, h, 0, 0, HInstance, nil);
+  ShowWindow(hWnd, SW_SHOWNORMAL);
+  UpdateWindow(hWnd);
+
+  while(GetMessage(Msg, 0, 0, 0)) do
+  begin
+    TranslateMessage(Msg);
+    DispatchMessage(Msg);
+  end;
+
+end.
+

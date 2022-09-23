@@ -1,0 +1,43 @@
+unit Unit2;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    lbl1: TLabel;
+    edt1: TEdit;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    edt2: TEdit;
+    lbl4: TLabel;
+    btn1: TButton;
+    procedure btn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+function ListMoveF(var l1,l2:Integer):WordBool;far;external 'project1.dll'
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  l1,l2:Integer;
+begin
+  if ListMoveF(l1,l2) then
+  begin
+    edt1.Text:=IntToStr(l1);
+    edt2.Text:=IntToStr(l2);
+  end;
+end;
+
+end.

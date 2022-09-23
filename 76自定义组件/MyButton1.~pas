@@ -1,0 +1,32 @@
+unit MyButton1;
+
+interface
+
+uses
+  SysUtils, Classes, Controls, StdCtrls;
+
+type
+  TMyButton1 = class(TButtonControl)
+  private
+    { Private declarations }
+  protected
+    { Protected declarations }
+  public
+    { Public declarations }
+  published
+    { Published declarations }
+
+  constructor create;
+  destructor destroy;
+  end;
+
+procedure Register;
+
+implementation
+
+procedure Register;
+begin
+  RegisterComponents('Samples', [TMyButton1]);
+end;
+
+end.

@@ -1,0 +1,41 @@
+unit ClockPE;
+
+interface
+
+uses
+  Controls, SysUtils, Classes, DesignIntf, DesignEditors, Forms, TimeEditFrm;
+
+implementation
+
+type
+  TClockProperty = class(TStringProperty)
+  public
+    function GetAttributes: TPropertyAttributes; override;
+    procedure Edit; override;
+  end;
+
+
+procedure TClockProperty.Edit;
+var
+  TimeEditForm: TTimeEditForm;
+begin
+  TimeEditForm := TTimeEditForm.create(Application);
+
+  try
+    TimeEditForm.dtp1.time := strtotime(getvalue);
+    if TimeEditForm.ShowModal = mrok then
+      SetValue(timetostr(TimeEditForm.dtp1.time));
+
+  finally
+    TimeEditForm.Free;
+  end;
+
+end;
+
+function TClockProperty.GetAttributes: TPropertyAttributes;
+begin
+  Result := [paDialog, paMultiSelect];
+end;
+
+end.
+
